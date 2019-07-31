@@ -323,9 +323,9 @@ function getExplorerInfo() {
     type: "Safari",
     version: Number(t.match(/version\/([\d]+)/)[1])
   } : {
-    type: t,
-    version: -1
-  }
+                  type: t,
+                  version: -1
+                }
 }
 
 
@@ -484,7 +484,8 @@ function dateStrForma(str, from, to) {
     to = to.replace(/YY|yy/g, Y)
   }
 
-  let k, i['M', 'D', 'H', 'h', 'm', 's'].forEach(s => {
+  let k, i
+  ['M', 'D', 'H', 'h', 'm', 's'].forEach(s => {
     i = from.indexOf(s + s)
     k = ~i ? str.substr(i, 2) : ''
     to = to.replace(s + s, k)
@@ -587,12 +588,12 @@ function toFullScreen() {
   elem.webkitRequestFullScreen ?
     elem.webkitRequestFullScreen() :
     elem.mozRequestFullScreen ?
-    elem.mozRequestFullScreen() :
-    elem.msRequestFullscreen ?
-    elem.msRequestFullscreen() :
-    elem.requestFullScreen ?
-    elem.requestFullScreen() :
-    alert("浏览器不支持全屏");
+      elem.mozRequestFullScreen() :
+      elem.msRequestFullscreen ?
+        elem.msRequestFullscreen() :
+        elem.requestFullScreen ?
+          elem.requestFullScreen() :
+          alert("浏览器不支持全屏");
 }
 
 
@@ -605,14 +606,14 @@ function exitFullscreen() {
   elem.webkitCancelFullScreen ?
     elem.webkitCancelFullScreen() :
     elem.mozCancelFullScreen ?
-    elem.mozCancelFullScreen() :
-    elem.cancelFullScreen ?
-    elem.cancelFullScreen() :
-    elem.msExitFullscreen ?
-    elem.msExitFullscreen() :
-    elem.exitFullscreen ?
-    elem.exitFullscreen() :
-    alert("切换失败,可尝试Esc退出");
+      elem.mozCancelFullScreen() :
+      elem.cancelFullScreen ?
+        elem.cancelFullScreen() :
+        elem.msExitFullscreen ?
+          elem.msExitFullscreen() :
+          elem.exitFullscreen ?
+            elem.exitFullscreen() :
+            alert("切换失败,可尝试Esc退出");
 }
 
 
@@ -776,11 +777,11 @@ Array.prototype.find = Array.prototype.find || function find(fn, ctx) {
   ctx = ctx || this
 
   let result;
-  ctx.some((value, index, arr), thisValue) => {
+  ctx.some((value, index, arr), thisArg) => {
     return fn(value, index, arr) ? (result = value, true) : false
   })
 
-return result
+  return result
 }
 
 
@@ -796,7 +797,7 @@ Array.prototype.findIndex = Array.prototype.findIndex || function findIndex(fn, 
     return fn(value, index, arr) ? (result = index, true) : false
   })
 
-return result
+  return result
 }
 
 
