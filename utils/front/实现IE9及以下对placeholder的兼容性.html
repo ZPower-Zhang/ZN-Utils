@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {margin: 0;padding: 0;font-family: "Microsoft YaHei";font-size: 14px;}
+        .input-box {margin: 10px;position: relative;width: 100px;height: 30px;line-height: 30px;}
+        .input1 {width: 100%;height: 100%;padding-left: 5px;}
+        .input2 {width: 100%;height: 100%;padding-left: 10px;}
+        .placeholder {position: absolute;top: 0;z-index: 10;color: #888;}
+    </style>
+</head>
+<body>
+<div class="input-box">
+    <input class="input1" type="text" placeholder="请输入标题">
+</div>
+<div class="input-box">
+    <input class="input2" type="text" placeholder="请输入文章">
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<script>
+	var placeHolder = {};
+	// 兼容IE9下的placeholder
+	placeHolder.prototype.placeholderSupport = function() {
+		return 'placeholder' in document.createElement('input');
+	}
+	placeHolder.prototype.checkPlaceholder = function() {
+		if(!placeHolder.prototype.placeholderSupport()) {
+			$("[placeholder]").each(function(){
+				var _this = $(this);
+				var left = _this.css("padding-left");
+				_this.parent().append('<span class="placeholder" data-type="placeholder" style="left: ' + left + '">' + _this.attr("placeholder") + '</span>');
+				if(_this.val() != ""){
+					_this.parent().find("span.placeholder").hide();
+				}
+				else{
+					_this.parent().find("span.placeholder").show();
+				}
+			}).on("focus", function(){
+				$(this).parent().find("span.placeholder").hide();
+			}).on("blur", function(){
+				var _this = $(this);
+				if(_this.val() != ""){
+					_this.parent().find("span.placeholder").hide();
+				}
+				else{
+					_this.parent().find("span.placeholder").show();
+				}
+			});
+			// 点击表示placeholder的标签相当于触发input
+			$("span.placeholder").on("click", function(){
+				$(this).hide();
+				$(this).siblings("[placeholder]").trigger("click");
+				$(this).siblings("[placeholder]").trigger("focus");
+			});
+		}
+	}
+	$(function(){
+		placeHolder.prototype.checkPlaceholder();
+	})
+	/*
+	然后就需要在其父元素的html中append一个标签来用作显示placeholder，这样就需要父元素必须采用定位布局，假如父元素为：position: relative;，用作显示placeholder的标签采用position:absolute;布局。
+
+但是这还不够，因为我们一般会对input做一些处理，例如高度，这样的话要让placeholder的标签垂直居中则必须设置line-height，当然一般还会设置input的padding-left，placeholder的标签刚好是定位布局，则可以用left表示了。
+	*/
+</script>
+</body>
+</html>
